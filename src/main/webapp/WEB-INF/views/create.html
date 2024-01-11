@@ -8,7 +8,11 @@
 <h1>Create form</h1>
 <form action="/provinces/save", method="post" id="createForm">
     <input type="text" name="name">
-    <input type="text" name="country">
+    <select id="country" name="country">
+        <option value="VietNam">VietNam</option>
+        <option value="China">China</option>
+        <option value="Brazil">Brazil</option>
+    </select>
     <input type="number" name="acreage">
     <input type="number" name="population">
     <input type="number" name="GDP">
