@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>List province</h1>
+<form action="/provinces/search/{name}" method="get">
+    <input type="text" name="searchText">
+    <input type="submit" value="search">
+</form>
+<a href="/provinces/create">Add</a>
+<table border="1">
+    <tr>
+        <td><strong>Id</strong></td>
+        <td><strong>name</strong></td>
+        <td><strong>country</strong></td>
+        <td><strong>acreage</strong></td>
+        <td><strong>population</strong></td>
+        <td><strong>GDP</strong></td>
+        <td><strong>description</strong></td>
+        <td><strong>edit/delete</strong></td>
+    </tr>
+    <tr th:each="province : ${provinces}">
+        <td th:text="${province.id}"></td>
+        <td th:text="${province.name}"></td>
+        <td th:text="${province.country}"></td>
+        <td th:text="${province.acreage}"></td>
+        <td th:text="${province.population}"></td>
+        <td th:text="${province.GDP}"></td>
+        <td th:text="${province.description}"></td>
+        <td><a th:href="@{/provinces/edit/__${province.id}__}">Edit</a>
+            <a th:href="@{/provinces/delete/__${province.id}__}" class="confirm-delete">Delete</a>
+            <a th:href="@{/provinces/showDetails/__${province.id}__}">Details</a>
+        </td>
+    </tr>
+</table>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('a.confirm-delete').click(function(event) {
+            event.preventDefault();
+            if (confirm("Xoa that a?")) {
+                window.location.href = $(this).attr('href');
+            }
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Edit</h1>
+<form action="/provinces/edit/{id}" method="post" id="editForm">
+    <input type="hidden" name="id" th:value="${province.id}">
+    <input type="text" name="name" th:value="${province.name}">
+    <input type="text" name="country" th:value="${province.country}">
+    <input type="text" name="acreage" th:value="${province.acreage}">
+    <input type="text" name="population" th:value="${province.population}">
+    <input type="text" name="GDP" th:value="${province.GDP}">
+    <input type="text" name="description" th:value="${province.description}">
+    <input type="submit" value="save">
+</form>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function() {
+        $('#editForm').submit(function(event) {
+            // Prevent default form submission
+            console.log(event)
+            event.preventDefault();
+
+            // Get the form data
+            var data = $(this).serializeArray();
+            // Validate the data
+            var isValid = true;
+            var errorMessage = '';
+
+            // Validate name
+            if (data[0].value .trim() === '') {
+                errorMessage += 'Please enter a name.\n';
+                isValid = false;
+            }
+
+            if (!data[0].value .match(/^[a-zA-Z0-9 ]+$/)) {
+                errorMessage += 'Name must be alphanumeric and can contain spaces.\n';
+                isValid = false;
+            }
+
+            // Validate country
+            if (data[1].value .trim() === '') {
+                errorMessage += 'Please enter a country.\n';
+                isValid = false;
+            }
+
+            if (!data[1].value .match(/^[a-zA-Z]+$/)) {
+                errorMessage += 'Country must be only letters.\n';
+                isValid = false;
+            }
+
+            // Validate acreage
+            var acreage = data[2].value .trim();
+            if (acreage === '') {
+                errorMessage += 'Acreage must not be empty.\n';
+                isValid = false;
+            } else {
+                try {
+                    var number = parseFloat(acreage);
+                } catch (e) {
+                    errorMessage += 'Acreage must be a valid number.\n';
+                    isValid = false;
+                }
+            }
+
+            // Validate population
+            var population = data[3].value .trim();
+            if (population === '') {
+                errorMessage += 'Population must not be empty.\n';
+                isValid = false;
+            } else {
+                try {
+                    var number = parseInt(population);
+                } catch (e) {
+                    errorMessage += 'Population must be a valid number.\n';
+                    isValid = false;
+                }
+            }
+
+            // Validate GDP
+            var GDP = data[4].value .trim();
+            if (GDP === '') {
+                errorMessage += 'GDP must not be empty.\n';
+                isValid = false;
+            } else {
+                try {
+                    var number = parseFloat(GDP);
+                } catch (e) {
+                    errorMessage += 'GDP must be a valid number.\n';
+                    isValid = false;
+                }
+            }
+
+            // Validate description
+            var description = data[5].value .trim();
+            if (description === '') {
+                errorMessage += 'Description must not be empty.\n';
+                isValid = false;
+            } else if (description.length > 1000) {
+                errorMessage += 'Description must be less than 1000 characters long.\n';
+                isValid = false;
+            }
+            // Submit the form if valid
+            if (isValid) {
+                // Send the data to the server
+                $.ajax({
+                    type: 'POST',
+                    url: '/provinces/save',
+                    data: data,
+                    success: function(response) {
+                        // Handle the response from the server
+                        if (response.success) {
+                            // Province was updated successfully
+                            alert('Province was saved successfully.');
+                        }
+                        window.location.href ='/provinces'
+                    },
+                    error: function(error) {
+                        // Handle the error from the server
+                        console.log(error)
+                        alert('An error occurred.');
+                    }
+                });
+            } else {
+                // Show the error message
+                alert(errorMessage);
+            }
+        });
+    });
+</script>
+</html>

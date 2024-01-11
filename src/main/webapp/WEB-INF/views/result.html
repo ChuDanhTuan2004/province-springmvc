@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Result</h1>
+<a href="/provinces">Back to list</a>
+<table border="1">
+    <tr>
+        <td><strong>Id</strong></td>
+        <td><strong>name</strong></td>
+        <td><strong>country</strong></td>
+        <td><strong>acreage</strong></td>
+        <td><strong>population</strong></td>
+        <td><strong>GDP</strong></td>
+        <td><strong>description</strong></td>
+        <td><strong>edit/delete</strong></td>
+    </tr>
+    <tr th:each="provinceS : ${provincesSearch}">
+        <td th:text="${provinceS.id}"></td>
+        <td th:text="${provinceS.name}"></td>
+        <td th:text="${provinceS.country}"></td>
+        <td th:text="${provinceS.acreage}"></td>
+        <td th:text="${provinceS.population}"></td>
+        <td th:text="${provinceS.GDP}"></td>
+        <td th:text="${provinceS.description}"></td>
+        <td><a th:href="@{/provinces/edit/__${province.id}__}">Edit</a>
+            <a th:href="@{/provinces/delete/__${province.id}__}">Delete</a></td>
+    </tr>
+</table>
+</body>
+</html>
