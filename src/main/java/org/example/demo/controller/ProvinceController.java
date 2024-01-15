@@ -4,8 +4,11 @@ import org.example.demo.model.Province;
 import org.example.demo.service.IProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/provinces")
@@ -27,7 +30,12 @@ public class ProvinceController {
     }
 
     @PostMapping("/save")
-    public ModelAndView create(Province province){
+    public ModelAndView create(@Valid Province province, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView("/create");
+            modelAndView.addObject("listErrors", bindingResult.getAllErrors());
+            return modelAndView;
+        }
         provinceService.save(province);
         ModelAndView modelAndView = new ModelAndView("redirect:/provinces");
         return modelAndView;
@@ -41,7 +49,12 @@ public class ProvinceController {
     }
 
     @PostMapping("/edit/{id}")
-    public ModelAndView edit(Province province){
+    public ModelAndView edit(@Valid Province province, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView("/edit");
+            modelAndView.addObject("ListErrorsEdit", bindingResult.getAllErrors());
+            return modelAndView;
+        }
         provinceService.save(province);
         ModelAndView modelAndView = new ModelAndView("redirect:/provinces");
         return modelAndView;
