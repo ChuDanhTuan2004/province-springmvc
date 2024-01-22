@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Edit</h1>
+<form action="/students/edit/{id}" method="post">
+    <input type="hidden" name="id" th:value="${student.id}">
+    <input type="text" name="name" th:value="${student.name}">
+    <input type="text" name="className" th:value="${student.className}">
+    <input type="number" name="age" th:value="${student.age}">
+    <input type="submit" value="save">
+</form>
+</body>
+</html>
